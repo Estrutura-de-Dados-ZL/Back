@@ -1,5 +1,5 @@
 package ed.trab.ecommerce.dtos;
 
-public class pessoJuridicaDto {
+public class pessoaJuridicaDto {
 
 }
