@@ -1,13 +1,15 @@
 package ed.trab.ecommerce.controllers;
 
 import java.util.Stack;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.ClienteService;
 
@@ -22,22 +24,52 @@ public class ClienteController {
     }
 
     @GetMapping
-    public Stack<Cliente> getCliente() {
-        return clienteService.getCliente();
+    @ResponseStatus(HttpStatus.OK)
+    public Stack<Cliente> getCliente() throws ResponseStatusException {
+        try {
+            return clienteService.getCliente();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clientes não encontrados");
+        }
     }
 
     @PostMapping
-    public void saveCliente(Cliente cliente) {
-        clienteService.saveCliente(cliente);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void saveCliente(Cliente cliente) throws ResponseStatusException {
+        try {
+            clienteService.saveCliente(cliente);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente já existe");
+        }
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateClienteById(Long id, Cliente cliente) throws RuntimeException, ResponseStatusException {
+        try {
+            clienteService.updateClienteById(id, cliente);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não pode ser atualizado");
+        }
     }
 
     @GetMapping("/{id}")
-    public Cliente getClienteById(Long id) {
-        return clienteService.getClienteById(id);
+    @ResponseStatus(HttpStatus.OK)
+    public Cliente getClienteById(Long id) throws ResponseStatusException {
+        try {
+            return clienteService.getClienteById(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClienteById(Long id) {
-        clienteService.deleteClienteById(id);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteClienteById(Long id) throws ResponseStatusException {
+        try {
+            clienteService.deleteClienteById(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
+        }
     }
 }
