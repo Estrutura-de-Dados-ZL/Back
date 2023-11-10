@@ -30,8 +30,15 @@ public class ClienteService {
         return this.clienteRepository.findById(id).get();
     }
 
+    public void updateClienteById(Long id, Cliente cliente) throws RuntimeException {
+        if (this.clienteRepository.existsById(id)) {
+            this.clienteRepository.save(cliente);
+        } else {
+            throw new RuntimeException("Cliente não encontrado");
+        }
+    }
+
     public void deleteClienteById(Long id) {
-        
         this.clienteRepository.deleteById(id);
     }
 }
