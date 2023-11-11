@@ -1,9 +1,5 @@
 package ed.trab.ecommerce.models;
 
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.validation.annotation.Validated;
-
-import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
