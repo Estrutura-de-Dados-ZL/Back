@@ -48,7 +48,8 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClienteById(@PathVariable Long id, Cliente cliente) throws RuntimeException, ResponseStatusException {
+    public void updateClienteById(@PathVariable Long id, Cliente cliente)
+            throws RuntimeException, ResponseStatusException {
         try {
             clienteService.updateClienteById(id, cliente);
         } catch (Exception e) {

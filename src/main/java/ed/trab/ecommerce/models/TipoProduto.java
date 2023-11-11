@@ -20,5 +20,4 @@ public class TipoProduto {
     private Long id;
 
     private String descricao;
-
 }

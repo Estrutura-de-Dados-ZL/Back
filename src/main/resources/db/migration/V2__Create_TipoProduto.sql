@@ -4,17 +4,14 @@ CREATE TABLE IF NOT EXISTS tipo_produto(
 );
 
 INSERT INTO tipo_produto (descricao)
-VALUES ('produtos ao consumidor (ou bens de consumo) - usados por usuários-finais');
+VALUES ('produtos industriais');
 
 INSERT INTO tipo_produto (descricao)
-VALUES ('bens de compra comparada - alguma comparação com outros bens como carros
-e TVs. Ou seja, são produtos que exigem um alto esforço do consumidor para
-comparar os requisitos e fazer uma escolha que atenda às suas necessidades.');
+VALUES ('bens de conveniência');
 
 INSERT INTO tipo_produto (descricao)
-VALUES ('abastecimento e serviços - bens que facilitam a produção');
+VALUES ('bens de impulso');
 
 INSERT INTO tipo_produto (descricao)
-VALUES ('produtos intermediários - resulta da fabricação de outro produto');
-
+VALUES ('bens perecíveis');
 

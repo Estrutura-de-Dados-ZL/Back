@@ -48,7 +48,8 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProdutoById(@PathVariable Long id, Produto produto) throws RuntimeException, ResponseStatusException {
+    public void updateProdutoById(@PathVariable Long id, Produto produto)
+            throws RuntimeException, ResponseStatusException {
         try {
             produtoService.updateProdutoById(id, produto);
         } catch (Exception e) {
