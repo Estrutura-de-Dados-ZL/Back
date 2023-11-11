@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,7 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClienteById(Long id, Cliente cliente) throws RuntimeException, ResponseStatusException {
+    public void updateClienteById(@PathVariable Long id, Cliente cliente) throws RuntimeException, ResponseStatusException {
         try {
             clienteService.updateClienteById(id, cliente);
         } catch (Exception e) {
@@ -57,7 +58,7 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente getClienteById(Long id) throws ResponseStatusException {
+    public Cliente getClienteById(@PathVariable Long id) throws ResponseStatusException {
         try {
             return clienteService.getClienteById(id);
         } catch (Exception e) {
@@ -67,7 +68,7 @@ public class ClienteController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteClienteById(Long id) throws ResponseStatusException {
+    public void deleteClienteById(@PathVariable Long id) throws ResponseStatusException {
         try {
             clienteService.deleteClienteById(id);
         } catch (Exception e) {
