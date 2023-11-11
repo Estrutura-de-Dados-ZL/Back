@@ -29,6 +29,6 @@ public class Produto {
 
     private int quantidade;
 
-    //@ManyToOne
-    //private TipoProduto tipoProduto;
+    @ManyToOne
+    private TipoProduto tipoProduto;
 }
