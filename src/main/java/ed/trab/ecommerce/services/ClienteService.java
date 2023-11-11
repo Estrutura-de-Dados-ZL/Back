@@ -1,10 +1,8 @@
 package ed.trab.ecommerce.services;
 
-import java.util.Stack;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.repositories.ClienteRepository;
 
@@ -22,8 +20,8 @@ public class ClienteService {
         this.clienteRepository.save(cliente);
     }
 
-    public Stack<Cliente> getCliente() {
-        return (Stack<Cliente>) this.clienteRepository.findAll();
+    public List<Cliente> getCliente() {
+        return this.clienteRepository.findAll();
     }
 
     public Cliente getClienteById(Long id) {
