@@ -29,12 +29,11 @@ public class ClienteController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Cliente> getCliente() throws ResponseStatusException {
-        // try {
-        return clienteService.getCliente();
-        // } catch (Exception e) {
-        // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clientes não
-        // encontrados");
-        // }
+        try {
+            return clienteService.getCliente();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clientes não encontrados");
+        }
     }
 
     @PostMapping
