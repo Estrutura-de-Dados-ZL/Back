@@ -1,8 +1,9 @@
 package ed.trab.ecommerce.controllers;
 
-import java.util.Stack;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.ClienteService;
 
 @RequestMapping("cliente")
+@Controller
 public class ClienteController {
 
     private ClienteService clienteService;
@@ -25,7 +27,7 @@ public class ClienteController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public Stack<Cliente> getCliente() throws ResponseStatusException {
+    public List<Cliente> getCliente() throws ResponseStatusException {
         try {
             return clienteService.getCliente();
         } catch (Exception e) {
