@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.ClienteService;
 
 @RequestMapping("cliente")
-@Controller
+@RestController
 public class ClienteController {
 
     private ClienteService clienteService;
@@ -28,11 +29,12 @@ public class ClienteController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Cliente> getCliente() throws ResponseStatusException {
-        try {
-            return clienteService.getCliente();
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clientes não encontrados");
-        }
+        // try {
+        return clienteService.getCliente();
+        // } catch (Exception e) {
+        // throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Clientes não
+        // encontrados");
+        // }
     }
 
     @PostMapping
