@@ -30,6 +30,8 @@ public class Produto {
 
     private int quantidade;
 
+    private String imagem;
+
     @ManyToOne
     @JoinColumn(name = "tipo_produto", nullable = false)
     private TipoProduto tipoProduto;
