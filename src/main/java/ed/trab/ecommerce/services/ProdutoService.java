@@ -32,6 +32,9 @@ public class ProdutoService {
         if(tipoProdutoId == 0){
             return this.produtoRepository.findByNomeTipo(nome);    
         }
+        if(nome.equals("colevati")){
+            return this.produtoRepository.findByNomeTipo(tipoProdutoId);
+        }
         return this.produtoRepository.findByNomeTipo(nome, tipoProdutoId);
     }
 
