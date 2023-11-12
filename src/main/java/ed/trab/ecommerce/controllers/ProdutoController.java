@@ -69,6 +69,16 @@ public class ProdutoController {
         }
     }
 
+    @GetMapping("/{tipoProdutoId}/{nome}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Produto> getProdutoByNomeTipo(@PathVariable Long tipoProdutoId, @PathVariable String nome) throws ResponseStatusException {
+        try {
+            return produtoService.getProdutoByNomeTipo(nome, tipoProdutoId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
+        }
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProdutoById(@PathVariable Long id) throws ResponseStatusException {
