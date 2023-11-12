@@ -15,3 +15,15 @@ VALUES ('bens de impulso');
 INSERT INTO tipo_produto (descricao)
 VALUES ('bens perecíveis');
 
+INSERT INTO tipo_produto (descricao)
+VALUES ('produtos ao consumidor');
+
+INSERT INTO tipo_produto (descricao)
+VALUES ('bens de compra comparada');
+
+INSERT INTO tipo_produto (descricao)
+VALUES ('bens de especialidade');
+
+INSERT INTO tipo_produto (descricao)
+VALUES ('bens duráveis');
+
