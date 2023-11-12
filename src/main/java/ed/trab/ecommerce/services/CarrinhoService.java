@@ -3,42 +3,33 @@ package ed.trab.ecommerce.services;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
 
 import org.springframework.stereotype.Service;
 
-import ed.trab.ecommerce.models.Carrinho;
 import ed.trab.ecommerce.models.Produto;
 
 @Service
 public class CarrinhoService {
-    
-    Carrinho carrinho = new Carrinho();
+
     HashMap<String, Integer> hash = new HashMap<>();
 
-    public void adicionar(Produto produto){
-        carrinho.pilha.push(produto);
-
-    }
-
-    public void remover() throws RuntimeException{
-        if(carrinho.pilha.isEmpty()){
-            throw new RuntimeException("O carrinho não possui itens.");
+    public Queue<Produto> checkout(Produto[] pilhaParametro) throws RuntimeException{
+        Stack<Produto> pilha = new Stack<>();
+        for (Produto p : pilhaParametro) {
+            pilha.push(p);
         }
-        carrinho.pilha.pop();
-    }
-
-    public Queue<Produto> checkout() throws RuntimeException{
-        if(carrinho.pilha.isEmpty()){
+        if(pilha.isEmpty()){
             throw new RuntimeException("O carrinho não possui itens.");
         }
 
         Queue<Produto> fila = new LinkedList<>();
 
-        while(!carrinho.pilha.isEmpty()){
-            if(temNoEstoque(carrinho.pilha.peek())){
-                fila.add(carrinho.pilha.pop());
+        while(!pilha.isEmpty()){
+            if(temNoEstoque(pilha.peek())){
+                fila.add(pilha.pop());
             }else{
-                throw new RuntimeException(String.format("%s fora de estoque.", carrinho.pilha.peek().getNome()));
+                throw new RuntimeException(String.format("%s fora de estoque.", pilha.peek().getNome()));
             }
         }
        
