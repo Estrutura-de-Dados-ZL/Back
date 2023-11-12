@@ -29,6 +29,9 @@ public class ProdutoService {
     }
 
     public List<Produto> getProdutoByNomeTipo(String nome, Long tipoProdutoId){
+        if(tipoProdutoId == 0){
+            return this.produtoRepository.findByNomeTipo(nome);    
+        }
         return this.produtoRepository.findByNomeTipo(nome, tipoProdutoId);
     }
 
