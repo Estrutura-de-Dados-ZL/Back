@@ -18,7 +18,7 @@ import ed.trab.ecommerce.services.ProdutoService;
 
 @RequestMapping("produto")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "https://ed-front.vercel.app" })
 public class ProdutoController {
 
     private ProdutoService produtoService;
@@ -71,7 +71,8 @@ public class ProdutoController {
 
     @GetMapping("/{tipoProdutoId}/{nome}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Produto> getProdutoByNomeTipo(@PathVariable Long tipoProdutoId, @PathVariable String nome) throws ResponseStatusException {
+    public List<Produto> getProdutoByNomeTipo(@PathVariable Long tipoProdutoId, @PathVariable String nome)
+            throws ResponseStatusException {
         try {
             return produtoService.getProdutoByNomeTipo(nome, tipoProdutoId);
         } catch (Exception e) {

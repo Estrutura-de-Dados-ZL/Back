@@ -18,7 +18,7 @@ import ed.trab.ecommerce.services.CarrinhoService;
 
 @RequestMapping("carrinho")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "https://ed-front.vercel.app" })
 public class CarrinhoController {
 
     private CarrinhoService carrinhoService;
