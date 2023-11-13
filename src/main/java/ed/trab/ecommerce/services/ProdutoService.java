@@ -28,6 +28,16 @@ public class ProdutoService {
         return this.produtoRepository.findById(id).get();
     }
 
+    public List<Produto> getProdutoByNomeTipo(String nome, Long tipoProdutoId){
+        if(tipoProdutoId == 0){
+            return this.produtoRepository.findByNomeTipo(nome);    
+        }
+        if(nome.equals("colevati")){
+            return this.produtoRepository.findByNomeTipo(tipoProdutoId);
+        }
+        return this.produtoRepository.findByNomeTipo(nome, tipoProdutoId);
+    }
+
     public void updateProdutoById(Long id, Produto produto) throws RuntimeException {
         if (this.produtoRepository.existsById(id)) {
             this.produtoRepository.save(produto);
