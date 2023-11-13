@@ -13,11 +13,8 @@ RUN if [ -f mvnw ]; then chmod +x mvnw; fi
 # Executa o comando 'mvn clean install' para realizar o build do projeto
 RUN if [ -f mvnw ]; then ./mvnw clean install; else mvn clean install; fi
 
-# Define o argumento JAR_FILE que representa o caminho do JAR após o build
-ARG JAR_FILE=target/*.jar
-
 # Copia o arquivo JAR gerado pelo Maven para o contêiner com o nome 'app.jar'
-COPY ${JAR_FILE} app.jar
+COPY --from=build /target/*.jar app.jar
 
 # Expõe a porta 8080, que é a porta padrão usada pela aplicação
 EXPOSE 8080
