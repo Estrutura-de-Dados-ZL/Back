@@ -19,7 +19,13 @@ import ed.trab.ecommerce.models.TipoProduto;
 @Service
 public class CarrinhoService {
 
-    HashMap<String, Integer> hash = new HashMap<>();
+    private static ProdutoService produtoService;
+
+    static HashMap<Long, Integer> hash = new HashMap<>();
+
+    CarrinhoService(ProdutoService produtoService) {
+        CarrinhoService.produtoService = produtoService;
+    }
 
     public Queue<Produto> checkout(Map<String, String> pilhaMap) throws RuntimeException {
         Stack<Produto> pilhaInvertida = new Stack<>();
@@ -36,19 +42,65 @@ public class CarrinhoService {
             pilha.push(pilhaInvertida.pop());
         }
 
+        Queue<Produto> fila = validaProdutos(pilha);
+
+        atualizaProduto();
+
+        return atualizaFila(fila);
+    }
+
+    private Queue<Produto> validaProdutos(Stack<Produto> pilha) throws RuntimeException {
         Queue<Produto> fila = new LinkedList<>();
 
         while (!pilha.isEmpty()) {
-            fila.add(pilha.pop());
-            // if (temNoEstoque(pilha.peek())) {
-            // fila.add(pilha.pop());
-            // } else {
-            // throw new RuntimeException(String.format("%s fora de estoque.",
-            // pilha.peek().getNome()));
-            // }
+            Produto produto = pilha.peek();
+            Produto produtoEstoque = produtoService.getProdutoById(produto.getId());
+            if (temNoEstoque(produtoEstoque)) {
+                fila.add(pilha.pop());
+            } else {
+                hash = new HashMap<>();
+                throw new RuntimeException(String.format("%s fora de estoque.",
+                        pilha.peek().getNome()));
+            }
         }
-
         return fila;
+    }
+
+    private static void atualizaProduto() {
+        hash.forEach((id, quantidade) -> {
+            Produto produto = produtoService.getProdutoById(id);
+            produto.setQuantidade(produto.getQuantidade() - quantidade);
+            produtoService.updateProdutoById(id, produto);
+        });
+
+        hash = new HashMap<>();
+    }
+
+    private static Queue<Produto> atualizaFila(Queue<Produto> fila) {
+        Queue<Produto> filaAtualizada = new LinkedList<>();
+        fila.forEach(produto -> {
+            filaAtualizada.add(produtoService.getProdutoById(produto.getId()));
+        });
+        return filaAtualizada;
+    }
+
+    private boolean temNoEstoque(Produto produto) {
+        if (hash.get(produto.getId()) != null) {
+            if (hash.get(produto.getId()) < produto.getQuantidade()) {
+                hash.put(produto.getId(), hash.get(produto.getId()) + 1);
+                return true;
+            } else {
+                return false;
+            }
+
+        } else {
+            if (produto.getQuantidade() >= 1) {
+                hash.put(produto.getId(), 1);
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
 
     private static JsonNode parseToJsonNode(String json) {
@@ -97,25 +149,4 @@ public class CarrinhoService {
         }
         return pilha;
     }
-
-    private boolean temNoEstoque(Produto produto) {
-        if (hash.get(produto.getNome()) >= 1) {
-            if (hash.get(produto.getNome()) < produto.getQuantidade()) {
-                hash.put(produto.getNome(), hash.get(produto.getNome()) + 1);
-                return true;
-            } else {
-                return false;
-            }
-
-        } else {
-            if (hash.get(produto.getNome()) < produto.getQuantidade()) {
-                hash.put(produto.getNome(), 1);
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-    }
-
 }

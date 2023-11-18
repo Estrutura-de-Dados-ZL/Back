@@ -19,7 +19,7 @@ import ed.trab.ecommerce.services.TipoProdutoService;
 
 @RequestMapping("tipoProduto")
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "https://ed-front.vercel.app" })
 public class TipoProdutoController {
     private TipoProdutoService tipoProdutoService;
 
