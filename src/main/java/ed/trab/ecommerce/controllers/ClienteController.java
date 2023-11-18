@@ -22,7 +22,6 @@ import ed.trab.ecommerce.services.ClienteService;
 public class ClienteController {
 
     private ClienteService clienteService;
-
     @Autowired
     public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
