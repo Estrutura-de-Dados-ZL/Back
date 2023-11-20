@@ -46,6 +46,10 @@ public class ProdutoService {
         }
     }
 
+    public Produto getProdutoByNome(String nome) {
+        return this.produtoRepository.findByNome(nome);
+    }
+
     public void deleteProdutoById(Long id) {
         this.produtoRepository.deleteById(id);
     }

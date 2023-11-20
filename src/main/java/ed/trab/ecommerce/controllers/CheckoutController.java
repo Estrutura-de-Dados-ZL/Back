@@ -1,20 +1,23 @@
 package ed.trab.ecommerce.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ed.trab.ecommerce.models.Checkout;
+import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.CheckoutService;
 
 @RequestMapping("checkout")
@@ -25,7 +28,7 @@ public class CheckoutController {
     @Autowired
     private CheckoutService checkoutService;
 
-    public CheckoutController(CheckoutService checkoutService){
+    CheckoutController(CheckoutService checkoutService){
         this.checkoutService = checkoutService;
     }
 
@@ -39,16 +42,6 @@ public class CheckoutController {
         }
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void saveCheckout(@Param(value = "checkout") Checkout checkout) throws ResponseStatusException {
-        try {
-            checkoutService.saveCheckout(checkout);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Checkout já existe");
-        }
-    }
-
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Checkout getCheckoutById(@PathVariable Long id) throws ResponseStatusException {
@@ -56,6 +49,17 @@ public class CheckoutController {
             return checkoutService.getcheckoutById(id);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Checkout não encontrado");
+        }
+    }
+
+    @PostMapping("/{idCliente}")
+    @ResponseStatus(HttpStatus.OK)
+    public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliete) throws ResponseStatusException {
+        try {
+            Checkout checkoutResponse = checkoutService.checkout(pilha, idCliete);
+            return new ResponseEntity<Checkout>(checkoutResponse, HttpStatus.OK).getBody();
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Carrinho não contem itens.");
         }
     }
 }

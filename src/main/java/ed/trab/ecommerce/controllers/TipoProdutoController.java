@@ -3,15 +3,7 @@ package ed.trab.ecommerce.controllers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import ed.trab.ecommerce.models.TipoProduto;
@@ -40,7 +32,7 @@ public class TipoProdutoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveTipoProduto(TipoProduto tipoProduto) throws ResponseStatusException {
+    public void saveTipoProduto(@RequestBody TipoProduto tipoProduto) throws ResponseStatusException {
         try {
             tipoProdutoService.saveTipoProduto(tipoProduto);
         } catch (Exception e) {
@@ -50,7 +42,7 @@ public class TipoProdutoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTipoProdutoById(@PathVariable Long id, TipoProduto tipoProduto)
+    public void updateTipoProdutoById(@PathVariable Long id, @RequestBody TipoProduto tipoProduto)
             throws RuntimeException, ResponseStatusException {
         try {
             tipoProdutoService.updateTipoProdutoById(id, tipoProduto);
@@ -64,6 +56,16 @@ public class TipoProdutoController {
     public TipoProduto getTipoProdutoById(@PathVariable Long id) throws ResponseStatusException {
         try {
             return tipoProdutoService.getTipoProdutoById(id);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoProduto não encontrado");
+        }
+    }
+
+    @GetMapping("/descricao/{descricao}")
+    @ResponseStatus(HttpStatus.OK)
+    public TipoProduto getTipoProdutoByDescricao(@PathVariable String descricao) throws ResponseStatusException {
+        try {
+            return tipoProdutoService.getTipoProdutoByDesricao(descricao);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "TipoProduto não encontrado");
         }

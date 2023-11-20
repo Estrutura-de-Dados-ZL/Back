@@ -35,6 +35,10 @@ public class TipoProdutoService {
         }
     }
 
+    public TipoProduto getTipoProdutoByDesricao(String descricao) {
+        return this.tipoProdutoRepository.findByDescricao(descricao);
+    }
+
     public void deleteTipoProdutoById(Long id) {
         this.tipoProdutoRepository.deleteById(id);
 }

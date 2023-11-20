@@ -3,15 +3,7 @@ package ed.trab.ecommerce.controllers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.ClienteService;
@@ -39,7 +31,7 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveCliente(Cliente cliente) throws ResponseStatusException {
+    public void saveCliente(@RequestBody Cliente cliente) throws ResponseStatusException {
         try {
             clienteService.saveCliente(cliente);
         } catch (Exception e) {
@@ -49,7 +41,7 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClienteById(@PathVariable Long id, Cliente cliente)
+    public void updateClienteById(@PathVariable Long id, @RequestBody Cliente cliente)
             throws RuntimeException, ResponseStatusException {
         try {
             clienteService.updateClienteById(id, cliente);

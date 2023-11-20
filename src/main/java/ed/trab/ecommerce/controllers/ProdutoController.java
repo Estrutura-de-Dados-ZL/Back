@@ -3,15 +3,7 @@ package ed.trab.ecommerce.controllers;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ed.trab.ecommerce.models.Produto;
 import ed.trab.ecommerce.services.ProdutoService;
@@ -40,7 +32,7 @@ public class ProdutoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveProduto(Produto produto) throws ResponseStatusException {
+    public void saveProduto(@RequestBody Produto produto) throws ResponseStatusException {
         try {
             produtoService.saveProduto(produto);
         } catch (Exception e) {
@@ -75,6 +67,16 @@ public class ProdutoController {
             throws ResponseStatusException {
         try {
             return produtoService.getProdutoByNomeTipo(nome, tipoProdutoId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
+        }
+    }
+
+    @GetMapping("/nome/{nome}")
+    @ResponseStatus(HttpStatus.OK)
+    public Produto getProdutoByNome(@PathVariable String nome) throws ResponseStatusException {
+        try {
+            return produtoService.getProdutoByNome(nome);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado");
         }
