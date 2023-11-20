@@ -17,18 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ed.trab.ecommerce.models.Checkout;
-import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.CheckoutService;
 
 @RequestMapping("checkout")
 @RestController
 @CrossOrigin(origins = { "http://localhost:4200", "https://ed-front.vercel.app" })
 public class CheckoutController {
-    
+
     @Autowired
     private CheckoutService checkoutService;
 
-    CheckoutController(CheckoutService checkoutService){
+    CheckoutController(CheckoutService checkoutService) {
         this.checkoutService = checkoutService;
     }
 
@@ -54,9 +53,10 @@ public class CheckoutController {
 
     @PostMapping("/{idCliente}")
     @ResponseStatus(HttpStatus.OK)
-    public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliete) throws ResponseStatusException {
+    public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliente)
+            throws ResponseStatusException {
         try {
-            Checkout checkoutResponse = checkoutService.checkout(pilha, idCliete);
+            Checkout checkoutResponse = checkoutService.checkout(pilha, idCliente);
             return new ResponseEntity<Checkout>(checkoutResponse, HttpStatus.OK).getBody();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Carrinho não contem itens.");
