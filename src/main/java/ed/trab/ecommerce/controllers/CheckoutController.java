@@ -52,11 +52,11 @@ public class CheckoutController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/{idCliente}")
     @ResponseStatus(HttpStatus.OK)
-    public Checkout checkout(@RequestBody Map<String, String> pilha /*, @PathVariable Long idCliete*/) throws ResponseStatusException {
+    public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliete) throws ResponseStatusException {
         try {
-            Checkout checkoutResponse = checkoutService.checkout(pilha, 1L);
+            Checkout checkoutResponse = checkoutService.checkout(pilha, idCliete);
             return new ResponseEntity<Checkout>(checkoutResponse, HttpStatus.OK).getBody();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Carrinho não contem itens.");
