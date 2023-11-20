@@ -52,7 +52,7 @@ public class CheckoutController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/{idCliente}")
     @ResponseStatus(HttpStatus.OK)
     public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliente)
             throws ResponseStatusException {
