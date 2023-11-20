@@ -2,6 +2,7 @@ package ed.trab.ecommerce.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,7 +44,7 @@ public class CheckoutController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Checkout getCheckoutById(@PathVariable Long id) throws ResponseStatusException {
+    public Optional<Checkout> getCheckoutById(@PathVariable Long id) throws ResponseStatusException {
         try {
             return checkoutService.getcheckoutById(id);
         } catch (Exception e) {
@@ -51,7 +52,7 @@ public class CheckoutController {
         }
     }
 
-    @PostMapping("/{idCliente}")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliente)
             throws ResponseStatusException {

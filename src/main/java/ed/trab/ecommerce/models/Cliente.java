@@ -26,8 +26,6 @@ public class Cliente {
 
     private String cnpj;
 
-    private String tipoPessoa;
-
     private String telefone;
 
     private String email;

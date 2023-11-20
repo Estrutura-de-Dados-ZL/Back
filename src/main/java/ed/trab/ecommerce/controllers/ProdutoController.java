@@ -1,6 +1,8 @@
 package ed.trab.ecommerce.controllers;
 
 import java.util.List;
+
+import ed.trab.ecommerce.services.TipoProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,12 @@ public class ProdutoController {
 
     private ProdutoService produtoService;
 
+    private TipoProdutoService tipoProdutoService;
+
     @Autowired
-    public ProdutoController(ProdutoService produtoService) {
+    public ProdutoController(ProdutoService produtoService, TipoProdutoService tipoProdutoService) {
         this.produtoService = produtoService;
+        this.tipoProdutoService = tipoProdutoService;
     }
 
     @GetMapping
@@ -30,11 +35,13 @@ public class ProdutoController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/{tipoProdutoId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveProduto(@RequestBody Produto produto) throws ResponseStatusException {
+    public void saveProduto(@RequestBody Produto produto, @PathVariable Long tipoProdutoId) throws ResponseStatusException {
         try {
-            produtoService.saveProduto(produto);
+            Produto produtoResponse = produto;
+            produtoResponse.setTipoProduto(tipoProdutoService.getTipoProdutoById(tipoProdutoId));
+            produtoService.saveProduto(produtoResponse);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto já existe");
         }

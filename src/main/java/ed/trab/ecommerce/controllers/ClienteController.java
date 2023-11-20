@@ -60,6 +60,16 @@ public class ClienteController {
         }
     }
 
+    @GetMapping("/nome/{nome}")
+    @ResponseStatus(HttpStatus.OK)
+    public Cliente getClienteByNome(@PathVariable String nome) throws ResponseStatusException {
+        try {
+            return clienteService.getClienteByNome(nome);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado");
+        }
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteClienteById(@PathVariable Long id) throws ResponseStatusException {
