@@ -1,11 +1,6 @@
 package ed.trab.ecommerce.services;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -181,11 +176,11 @@ public class CheckoutService {
     }
 
     public List<Checkout> getCheckout() {
-        return this.checkoutRepository.findAll();
+        return this.checkoutRepository.findAllFetch();
     }
 
-    public Checkout getcheckoutById(Long id) {
-        return this.checkoutRepository.findById(id).get();
+    public Optional<Checkout> getcheckoutById(Long id) {
+        return this.checkoutRepository.findByIdFetch(id);
     }
 
     private void calculaValorTotal(Checkout checkout, List<Produto> lista){

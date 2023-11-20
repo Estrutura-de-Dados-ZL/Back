@@ -19,16 +19,11 @@ public class Checkout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private Cliente cliente;
 
     private double valorTotal;
 
     @ManyToMany
-    @JoinTable(
-            name = "checkout_produtos",
-            joinColumns = @JoinColumn(name = "checkout_id"),
-            inverseJoinColumns = @JoinColumn(name = "produto_id")
-    )
     List<Produto> lista;
 }

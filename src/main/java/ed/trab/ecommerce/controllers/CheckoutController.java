@@ -2,6 +2,7 @@ package ed.trab.ecommerce.controllers;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ed.trab.ecommerce.models.Checkout;
-import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.services.CheckoutService;
 
 @RequestMapping("checkout")
@@ -44,7 +44,7 @@ public class CheckoutController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Checkout getCheckoutById(@PathVariable Long id) throws ResponseStatusException {
+    public Optional<Checkout> getCheckoutById(@PathVariable Long id) throws ResponseStatusException {
         try {
             return checkoutService.getcheckoutById(id);
         } catch (Exception e) {
@@ -52,11 +52,11 @@ public class CheckoutController {
         }
     }
 
-    @PostMapping("/{idCliente}")
+    @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public Checkout checkout(@RequestBody Map<String, String> pilha, @PathVariable Long idCliete) throws ResponseStatusException {
         try {
-            Checkout checkoutResponse = checkoutService.checkout(pilha, idCliete);
+            Checkout checkoutResponse = checkoutService.checkout(pilha, 1L);
             return new ResponseEntity<Checkout>(checkoutResponse, HttpStatus.OK).getBody();
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Carrinho não contem itens.");
