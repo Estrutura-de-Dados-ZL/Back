@@ -1,14 +1,9 @@
 package ed.trab.ecommerce.models;
 
+import java.util.List;
 import java.util.Queue;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,13 +17,18 @@ public class Checkout {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @OneToOne
-    Cliente cliente;
+    private Cliente cliente;
 
-    Double valorTotal;
+    private double valorTotal;
 
-    @OneToMany
-    Queue<Produto> lista;
+    @ManyToMany
+    @JoinTable(
+            name = "checkout_produtos",
+            joinColumns = @JoinColumn(name = "checkout_id"),
+            inverseJoinColumns = @JoinColumn(name = "produto_id")
+    )
+    List<Produto> lista;
 }

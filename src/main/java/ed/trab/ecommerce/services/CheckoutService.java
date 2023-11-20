@@ -28,17 +28,17 @@ public class CheckoutService {
     private CheckoutRepository checkoutRepository;
 
     private static ProdutoService produtoService;
+    private ClienteService clienteService;
 
     static HashMap<Long, Integer> hash = new HashMap<>();
 
-    CheckoutService(ProdutoService produtoService) {
-        CheckoutService.produtoService = produtoService;
+    CheckoutService(ProdutoService produtoService, ClienteService clienteService) {
+        this.produtoService = produtoService;
+        this.clienteService = clienteService;
     }
 
-    public Checkout checkout(Map<String, String> pilhaMap, Map<String, Cliente> clienteMap) throws RuntimeException {
-        System.out.println(clienteMap);
-        System.out.println(pilhaMap);
-        Cliente cliente = clienteMap.get("cliente");
+    public Checkout checkout(Map<String, String> pilhaMap, Long idCliente) throws RuntimeException {
+        Cliente cliente = clienteService.getClienteById(idCliente);
         Stack<Produto> pilhaInvertida = new Stack<>();
         Stack<Produto> pilha = new Stack<>();
         String pilhaJson = pilhaMap.get("pilha");
@@ -64,11 +64,14 @@ public class CheckoutService {
     }
 
     private Checkout criaCheckout(Queue<Produto> fila, Cliente cliente){
-        Checkout checkout = new Checkout();
-        checkout.setCliente(cliente);
-        checkout.setLista(fila);
+        List<Produto> listaProdutos = new LinkedList<>(fila);
 
-        return checkout;
+        Checkout novoCheckout = new Checkout();
+        novoCheckout.setCliente(cliente);
+        novoCheckout.setLista(listaProdutos);
+        calculaValorTotal(novoCheckout, listaProdutos);
+
+        return checkoutRepository.save(novoCheckout);
     }
 
     private Queue<Produto> validaProdutos(Stack<Produto> pilha) throws RuntimeException {
@@ -174,7 +177,6 @@ public class CheckoutService {
     }
 
     public void saveCheckout(Checkout checkout){
-        calculaValorTotal(checkout);
         this.checkoutRepository.save(checkout);
     }
 
@@ -186,7 +188,7 @@ public class CheckoutService {
         return this.checkoutRepository.findById(id).get();
     }
 
-    private void calculaValorTotal(Checkout checkout){
-        checkout.getLista().forEach(produto -> checkout.setValorTotal(checkout.getValorTotal() + produto.getValor()));
+    private void calculaValorTotal(Checkout checkout, List<Produto> lista){
+        checkout.setValorTotal(lista.stream().mapToDouble(Produto::getValor).sum());
     }
 }
