@@ -1,7 +1,10 @@
 package ed.trab.ecommerce.controllers;
 
 import java.util.List;
+import java.util.Map;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+import com.fasterxml.jackson.databind.JsonNode;
 import ed.trab.ecommerce.services.TipoProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,9 +40,9 @@ public class ProdutoController {
 
     @PostMapping("/{tipoProdutoId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveProduto(@RequestBody Produto produto, @PathVariable Long tipoProdutoId) throws ResponseStatusException {
+    public void saveProduto(@RequestBody Map<String, Produto> produto, @PathVariable Long tipoProdutoId) throws ResponseStatusException {
         try {
-            Produto produtoResponse = produto;
+            Produto produtoResponse = this.produtoService.toModel(produto);
             produtoResponse.setTipoProduto(tipoProdutoService.getTipoProdutoById(tipoProdutoId));
             produtoService.saveProduto(produtoResponse);
         } catch (Exception e) {
@@ -49,10 +52,10 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProdutoById(@PathVariable Long id, Produto produto)
-            throws RuntimeException, ResponseStatusException {
+    public void updateProdutoById(@PathVariable Long id, @RequestBody Map<String, Produto> produto) throws RuntimeException, ResponseStatusException {
         try {
-            produtoService.updateProdutoById(id, produto);
+            Produto produtoResponse = produtoService.toModel(produto);
+            produtoService.updateProdutoById(id, produtoResponse);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Produto não pode ser atualizado");
         }

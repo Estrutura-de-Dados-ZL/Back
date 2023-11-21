@@ -1,6 +1,8 @@
 package ed.trab.ecommerce.controllers;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +33,10 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveCliente(@RequestBody Cliente cliente) throws ResponseStatusException {
+    public void saveCliente(@RequestBody Map<String, Cliente> cliente) throws ResponseStatusException {
         try {
-            clienteService.saveCliente(cliente);
+            Cliente clienteResponse = clienteService.toModel(cliente);
+            clienteService.saveCliente(clienteResponse);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente já existe");
         }
@@ -41,10 +44,10 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClienteById(@PathVariable Long id, @RequestBody Cliente cliente)
-            throws RuntimeException, ResponseStatusException {
+    public void updateClienteById(@PathVariable Long id, @RequestBody Map<String, Cliente> cliente) throws RuntimeException, ResponseStatusException {
         try {
-            clienteService.updateClienteById(id, cliente);
+            Cliente clienteResponse = clienteService.toModel(cliente);
+            clienteService.updateClienteById(id, clienteResponse);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cliente não pode ser atualizado");
         }

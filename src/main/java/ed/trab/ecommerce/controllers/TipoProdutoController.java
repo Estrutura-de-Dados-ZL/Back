@@ -1,6 +1,8 @@
 package ed.trab.ecommerce.controllers;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +34,10 @@ public class TipoProdutoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveTipoProduto(@RequestBody TipoProduto tipoProduto) throws ResponseStatusException {
+    public void saveTipoProduto(@RequestBody Map<String, TipoProduto> tipoProduto) throws ResponseStatusException {
         try {
-            tipoProdutoService.saveTipoProduto(tipoProduto);
+            TipoProduto tipoProdutoModel = tipoProdutoService.toModel(tipoProduto);
+            tipoProdutoService.saveTipoProduto(tipoProdutoModel);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TipoProduto já existe");
         }
@@ -42,10 +45,10 @@ public class TipoProdutoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTipoProdutoById(@PathVariable Long id, @RequestBody TipoProduto tipoProduto)
-            throws RuntimeException, ResponseStatusException {
+    public void updateTipoProdutoById(@PathVariable Long id, @RequestBody Map<String, TipoProduto> tipoProduto) throws RuntimeException, ResponseStatusException {
         try {
-            tipoProdutoService.updateTipoProdutoById(id, tipoProduto);
+            TipoProduto tipoProdutoModel = tipoProdutoService.toModel(tipoProduto);
+            tipoProdutoService.updateTipoProdutoById(id, tipoProdutoModel);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "TipoProduto não pode ser atualizado");
         }

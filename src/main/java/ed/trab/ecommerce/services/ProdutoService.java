@@ -1,6 +1,8 @@
 package ed.trab.ecommerce.services;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ed.trab.ecommerce.models.Produto;
@@ -14,6 +16,10 @@ public class ProdutoService {
     @Autowired
     public ProdutoService(ProdutoRepository produtoRepository) {
         this.produtoRepository = produtoRepository;
+    }
+
+    public Produto toModel(Map<String, Produto> produto) {
+        return produto.get("produto");
     }
 
     public void saveProduto(Produto produto) {
@@ -53,4 +59,6 @@ public class ProdutoService {
     public void deleteProdutoById(Long id) {
         this.produtoRepository.deleteById(id);
     }
+
+
 }

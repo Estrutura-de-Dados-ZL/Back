@@ -1,10 +1,13 @@
 package ed.trab.ecommerce.services;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ed.trab.ecommerce.models.Cliente;
 import ed.trab.ecommerce.repositories.ClienteRepository;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,6 +19,10 @@ public class ClienteService {
     @Autowired
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;
+    }
+
+    public Cliente toModel(Map<String, Cliente> cliente) {
+        return cliente.get("cliente");
     }
 
     public void saveCliente(@RequestBody Cliente cliente) {
