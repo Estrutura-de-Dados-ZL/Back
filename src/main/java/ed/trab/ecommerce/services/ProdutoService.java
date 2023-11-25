@@ -34,11 +34,11 @@ public class ProdutoService {
         return this.produtoRepository.findById(id).get();
     }
 
-    public List<Produto> getProdutoByNomeTipo(String nome, Long tipoProdutoId){
-        if(tipoProdutoId == 0){
-            return this.produtoRepository.findByNomeTipo(nome);    
+    public List<Produto> getProdutoByNomeTipo(String nome, Long tipoProdutoId) {
+        if (tipoProdutoId == 0) {
+            return this.produtoRepository.findByNomeTipo(nome);
         }
-        if(nome.equals("colevati")){
+        if (nome.equals("colevati")) {
             return this.produtoRepository.findByNomeTipo(tipoProdutoId);
         }
         return this.produtoRepository.findByNomeTipo(nome, tipoProdutoId);
@@ -52,13 +52,12 @@ public class ProdutoService {
         }
     }
 
-    public Produto getProdutoByNome(String nome) {
+    public List<Produto> getProdutoByNome(String nome) {
         return this.produtoRepository.findByNome(nome);
     }
 
     public void deleteProdutoById(Long id) {
         this.produtoRepository.deleteById(id);
     }
-
 
 }

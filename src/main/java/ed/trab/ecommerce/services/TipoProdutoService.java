@@ -17,7 +17,7 @@ public class TipoProdutoService {
         this.tipoProdutoRepository = tipoProdutoRepository;
     }
 
-    public TipoProduto toModel(Map<String, TipoProduto> tipoProduto){
+    public TipoProduto toModel(Map<String, TipoProduto> tipoProduto) {
         return tipoProduto.get("tipoProduto");
     }
 
@@ -41,11 +41,11 @@ public class TipoProdutoService {
         }
     }
 
-    public TipoProduto getTipoProdutoByDesricao(String descricao) {
+    public List<TipoProduto> getTipoProdutoByDesricao(String descricao) {
         return this.tipoProdutoRepository.findByDescricao(descricao);
     }
 
     public void deleteTipoProdutoById(Long id) {
         this.tipoProdutoRepository.deleteById(id);
-}
+    }
 }

@@ -20,5 +20,5 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
     List<Produto> findByNomeTipo(@Param("tipoProdutoId") Long tipo);
 
     @Query("SELECT p FROM Produto p WHERE LOWER(p.nome) LIKE LOWER(CONCAT('%', :nome, '%'))")
-    Produto findByNome(@Param("nome") String nome);
+    List<Produto> findByNome(@Param("nome") String nome);
 }

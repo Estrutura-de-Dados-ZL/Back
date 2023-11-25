@@ -3,15 +3,23 @@ package ed.trab.ecommerce.controllers;
 import java.util.List;
 import java.util.Map;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
-import com.fasterxml.jackson.databind.JsonNode;
-import ed.trab.ecommerce.services.TipoProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
 import ed.trab.ecommerce.models.Produto;
 import ed.trab.ecommerce.services.ProdutoService;
+import ed.trab.ecommerce.services.TipoProdutoService;
 
 @RequestMapping("produto")
 @RestController
@@ -40,7 +48,8 @@ public class ProdutoController {
 
     @PostMapping("/{tipoProdutoId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void saveProduto(@RequestBody Map<String, Produto> produto, @PathVariable Long tipoProdutoId) throws ResponseStatusException {
+    public void saveProduto(@RequestBody Map<String, Produto> produto, @PathVariable Long tipoProdutoId)
+            throws ResponseStatusException {
         try {
             Produto produtoResponse = this.produtoService.toModel(produto);
             produtoResponse.setTipoProduto(tipoProdutoService.getTipoProdutoById(tipoProdutoId));
@@ -52,7 +61,8 @@ public class ProdutoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProdutoById(@PathVariable Long id, @RequestBody Map<String, Produto> produto) throws RuntimeException, ResponseStatusException {
+    public void updateProdutoById(@PathVariable Long id, @RequestBody Map<String, Produto> produto)
+            throws RuntimeException, ResponseStatusException {
         try {
             Produto produtoResponse = produtoService.toModel(produto);
             produtoService.updateProdutoById(id, produtoResponse);
@@ -84,7 +94,7 @@ public class ProdutoController {
 
     @GetMapping("/nome/{nome}")
     @ResponseStatus(HttpStatus.OK)
-    public Produto getProdutoByNome(@PathVariable String nome) throws ResponseStatusException {
+    public List<Produto> getProdutoByNome(@PathVariable String nome) throws ResponseStatusException {
         try {
             return produtoService.getProdutoByNome(nome);
         } catch (Exception e) {
