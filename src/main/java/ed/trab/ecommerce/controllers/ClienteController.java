@@ -16,6 +16,7 @@ import ed.trab.ecommerce.services.ClienteService;
 public class ClienteController {
 
     private ClienteService clienteService;
+
     @Autowired
     public ClienteController(ClienteService clienteService) {
         this.clienteService = clienteService;
@@ -44,7 +45,8 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClienteById(@PathVariable Long id, @RequestBody Map<String, Cliente> cliente) throws RuntimeException, ResponseStatusException {
+    public void updateClienteById(@PathVariable Long id, @RequestBody Map<String, Cliente> cliente)
+            throws RuntimeException, ResponseStatusException {
         try {
             Cliente clienteResponse = clienteService.toModel(cliente);
             clienteService.updateClienteById(id, clienteResponse);
@@ -65,7 +67,7 @@ public class ClienteController {
 
     @GetMapping("/nome/{nome}")
     @ResponseStatus(HttpStatus.OK)
-    public Cliente getClienteByNome(@PathVariable String nome) throws ResponseStatusException {
+    public List<Cliente> getClienteByNome(@PathVariable String nome) throws ResponseStatusException {
         try {
             return clienteService.getClienteByNome(nome);
         } catch (Exception e) {

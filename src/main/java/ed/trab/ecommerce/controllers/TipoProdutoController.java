@@ -45,7 +45,8 @@ public class TipoProdutoController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateTipoProdutoById(@PathVariable Long id, @RequestBody Map<String, TipoProduto> tipoProduto) throws RuntimeException, ResponseStatusException {
+    public void updateTipoProdutoById(@PathVariable Long id, @RequestBody Map<String, TipoProduto> tipoProduto)
+            throws RuntimeException, ResponseStatusException {
         try {
             TipoProduto tipoProdutoModel = tipoProdutoService.toModel(tipoProduto);
             tipoProdutoService.updateTipoProdutoById(id, tipoProdutoModel);
@@ -66,7 +67,7 @@ public class TipoProdutoController {
 
     @GetMapping("/descricao/{descricao}")
     @ResponseStatus(HttpStatus.OK)
-    public TipoProduto getTipoProdutoByDescricao(@PathVariable String descricao) throws ResponseStatusException {
+    public List<TipoProduto> getTipoProdutoByDescricao(@PathVariable String descricao) throws ResponseStatusException {
         try {
             return tipoProdutoService.getTipoProdutoByDesricao(descricao);
         } catch (Exception e) {

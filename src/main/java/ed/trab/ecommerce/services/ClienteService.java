@@ -45,7 +45,7 @@ public class ClienteService {
         }
     }
 
-    public Cliente getClienteByNome(String nome) {
+    public List<Cliente> getClienteByNome(String nome) {
         return this.clienteRepository.findByNome(nome);
     }
 
